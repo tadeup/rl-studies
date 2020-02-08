@@ -13,13 +13,17 @@ LEFT = 3
 class GridworldMontecarloEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
-    def __init__(self, size):
+    def __init__(self, size, player_pos, goal_pos):
         self.size = size
+        self.player_pos = player_pos
+        self.playerPos = player_pos.copy()
+        self.goalPos = goal_pos.copy()
+
         self.action_space = spaces.Discrete(4)
         self.observation_space = np.identity(size * size).tolist()
         self.world = np.zeros(size * size).reshape(size, size)
-        self.playerPos = [0,0]
-        self.goalPos = [size-1, size-1]
+
+
 
     def step(self, action):
         if action == UP and self.playerPos[0] > 0:
@@ -37,7 +41,7 @@ class GridworldMontecarloEnv(gym.Env):
         obs = self._get_obs()
         obs = obs.flatten().tolist()
 
-        if self.playerPos == self.goalPos:
+        if self.playerPos in self.goalPos:
             reward = 0
             done = True
         else:
@@ -47,7 +51,7 @@ class GridworldMontecarloEnv(gym.Env):
         return obs, reward, done, {}
 
     def reset(self):
-        self.playerPos = [0,0]
+        self.playerPos = self.player_pos.copy()
         obs = self._get_obs()
         obs = obs.flatten().tolist()
         return obs
