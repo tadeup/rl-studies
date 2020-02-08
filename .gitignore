@@ -1,0 +1,8 @@
+.ipynb_checkpoints/
+.vs/
+.idea/
+
+/gym-envs/gym-banana-master
+/gym-envs/gym-gridworlds-master
+/gym-envs/gym-minigrid-master
+/gym-envs/gym-soccer-master
